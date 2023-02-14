@@ -75,7 +75,7 @@ class Paypal implements Gateway
      */
     public function generateClientToken(Request $request): string
     {
-        return Http::withHeaders(['Accept-Language' => 'en_US'])
+        return (string) Http::withHeaders(['Accept-Language' => 'en_US'])
             ->withToken($this->generateAccessToken())
             ->asJson()
             ->send('POST', $this->requestEndpoint().'/v1/identity/generate-token')
@@ -85,7 +85,7 @@ class Paypal implements Gateway
     public function generateAccessToken(): string
     {
 
-        return Http::withBody('grant_type=client_credentials', 'body')
+        return (string) Http::withBody('grant_type=client_credentials', 'body')
             ->withBasicAuth($this->clientId(), $this->secret())
             ->post($this->requestEndpoint().'/v1/oauth2/token')
             ->json('access_token');
